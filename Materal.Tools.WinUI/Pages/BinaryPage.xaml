@@ -1,0 +1,26 @@
+<Page
+    x:Class="Materal.Tools.WinUI.Pages.BinaryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Materal.Tools.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Materal.Tools.WinUI.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <controls:EncryptionControl
+        x:Name="MianPanel"
+        CanDecode="True"
+        DecryptButtonClick="MianPanel_DecryptButtonClick"
+        EncryptButtonClick="EncryptionControl_EncryptButtonClick">
+        <controls:EncryptionControl.OperationPanelContent>
+            <Slider
+                x:Name="DigitSlider"
+                Header="秘钥位数"
+                Maximum="16"
+                Minimum="4"
+                StepFrequency="4"
+                Value="8" />
+        </controls:EncryptionControl.OperationPanelContent>
+    </controls:EncryptionControl>
+</Page>

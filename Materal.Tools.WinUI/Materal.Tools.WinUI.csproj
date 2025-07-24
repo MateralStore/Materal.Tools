@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Common.props" />
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>Materal.Tools.WinUI</RootNamespace>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x86;x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<UseWinUI>true</UseWinUI>
+		<Nullable>enable</Nullable>
+		<LangVersion>preview</LangVersion>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<!--不打包-->
+		<WindowsPackageType>None</WindowsPackageType>
+		<!--自包含 Windows App SDK Runtime-->
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+	<ItemGroup>
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Mvvm" />
+	  <PackageReference Include="Microsoft.WindowsAppSDK" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Materal.COA\Materal.COA\Materal.COA.csproj" />
+		<ProjectReference Include="..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
+		<ProjectReference Include="..\..\Materal.Utils\Materal.Utils.Windows\Materal.Utils.Windows.csproj" />
+	</ItemGroup>
+	<Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="call PostBuild.bat" />
+	</Target>
+</Project>

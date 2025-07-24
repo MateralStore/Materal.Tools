@@ -1,0 +1,48 @@
+<Page
+    x:Class="Materal.Tools.WinUI.Pages.RSAPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Materal.Tools.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Materal.Tools.WinUI.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <controls:EncryptionControl
+        x:Name="MianPanel"
+        CanDecode="True"
+        DecryptButtonClick="EncryptionControl_DecryptButtonClick"
+        EncryptButtonClick="EncryptionControl_EncryptButtonClick">
+        <controls:EncryptionControl.OperationPanelContent>
+            <StackPanel
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                Spacing="8">
+                <controls:FileSelector
+                    x:Name="PublicKeyFileSelector"
+                    Title="公钥文件:"
+                    Width="300"
+                    FileChanged="PublicKeyFileSelector_FileChanged">
+                    <controls:FileSelector.FileTypeFilters>
+                        <x:String>.pem</x:String>
+                        <x:String>.key</x:String>
+                    </controls:FileSelector.FileTypeFilters>
+                </controls:FileSelector>
+                <controls:FileSelector
+                    x:Name="PrivateKeyFileSelector"
+                    Title="私钥文件:"
+                    Width="300"
+                    FileChanged="PrivateKeyFileSelector_FileChanged">
+                    <controls:FileSelector.FileTypeFilters>
+                        <x:String>.pem</x:String>
+                        <x:String>.key</x:String>
+                    </controls:FileSelector.FileTypeFilters>
+                </controls:FileSelector>
+                <Button
+                    x:Name="CreateKey"
+                    Click="CreateKey_Click"
+                    Content="生成新秘钥" />
+            </StackPanel>
+        </controls:EncryptionControl.OperationPanelContent>
+    </controls:EncryptionControl>
+</Page>

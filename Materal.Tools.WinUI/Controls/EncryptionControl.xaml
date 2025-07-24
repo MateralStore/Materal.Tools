@@ -1,0 +1,73 @@
+<UserControl
+    x:Class="Materal.Tools.WinUI.Controls.EncryptionControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Materal.Tools.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Materal.Tools.WinUI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
+        <Visibility x:Key="VisibleValue">Visible</Visibility>
+        <Visibility x:Key="CollapsedValue">Collapsed</Visibility>
+        <converters:ObjectToObjectConverter
+            x:Name="DecodeVisibilityConverter"
+            EqualValue="{StaticResource VisibleValue}"
+            NotEqualValue="{StaticResource CollapsedValue}"
+            Value="{StaticResource TrueValue}" />
+        <converters:BoolReversalConverter x:Key="BoolReversalConverter" />
+    </UserControl.Resources>
+    <Grid RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ContentControl
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Content="{x:Bind OperationPanelContent, Mode=OneWay}" />
+        <TextBox
+            x:Name="PlainTextBox"
+            Grid.Row="1"
+            MinHeight="100"
+            AcceptsReturn="True"
+            Header="明文"
+            PlaceholderText="请输入需要加密的明文"
+            Text="{x:Bind PlainText, Mode=TwoWay}"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="CipherTextBox"
+            Grid.Row="2"
+            MinHeight="100"
+            AcceptsReturn="True"
+            Header="密文"
+            IsReadOnly="{x:Bind CanDecode, Mode=OneWay, Converter={StaticResource BoolReversalConverter}}"
+            PlaceholderText="请输入需要解密的密文"
+            Text="{x:Bind CipherText, Mode=TwoWay}"
+            TextWrapping="Wrap" />
+        <StackPanel
+            Grid.Row="3"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="20">
+            <Button
+                x:Name="EncryptButton"
+                Width="120"
+                Click="EncryptButton_Click"
+                Content="加密" />
+            <Button
+                x:Name="DecryptButton"
+                Width="120"
+                Click="DecryptButton_Click"
+                Content="解密"
+                Visibility="{x:Bind CanDecode, Mode=OneWay, Converter={StaticResource DecodeVisibilityConverter}}" />
+        </StackPanel>
+    </Grid>
+</UserControl>
