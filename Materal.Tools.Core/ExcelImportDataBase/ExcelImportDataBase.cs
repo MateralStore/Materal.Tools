@@ -71,7 +71,34 @@ public abstract class ExcelImportDataBase : IExcelImportDataBase
                         List<string> values = new(row.LastCellNum);
                         for (int j = 0; j < row.LastCellNum; j++)
                         {
-                            values.Add(row.GetCell(j).StringCellValue);
+                            ICell cell = row.GetCell(j);
+                            if (cell.CellType == CellType.String)
+                            {
+                                values.Add(cell.StringCellValue);
+                            }
+                            else if (cell.CellType == CellType.Numeric)
+                            {
+                                values.Add(cell.NumericCellValue.ToString());
+                            }
+                            else if (cell.CellType == CellType.Boolean)
+                            {
+                                values.Add(cell.BooleanCellValue ? "1" : "0");
+                            }
+                            else if (cell.CellType == CellType.Formula)
+                            {
+                                try
+                                {
+                                    values.Add(cell.StringCellValue);
+                                }
+                                catch
+                                {
+                                    values.Add(cell.NumericCellValue.ToString());
+                                }
+                            }
+                            else
+                            {
+                                values.Add(string.Empty);
+                            }
                         }
                         batchValues.Add(values);
                         if (batchValues.Count == options.BatchSize)
