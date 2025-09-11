@@ -29,29 +29,31 @@ namespace Materal.Tools.WinUI.Pages
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
             // 验证输入
-            if (!ValidateInput())
-            {
-                return;
-            }
-
+            if (!ValidateInput()) return;
             // 显示进度条
             ImportProgressBar.Visibility = Visibility.Visible;
             ImportProgressBar.IsIndeterminate = true;
             ImportButton.IsEnabled = false;
-
             try
             {
-                // 获取配置
                 ExcelImportOptions options = GetExcelImportOptions();
                 IExcelImportDataBase importer = SqlServerRadioButton.IsChecked == true
                     ? new ExcelImportSqlServer()
                     : new ExcelImportOracle();
-                // 执行导入
-                ExcelImportResult result = importer.Import(ExcelFilePathTextBox.Text, ConnectionStringTextBox.Text, options);
-                // 显示结果
-                DisplayResult(result);
+                string filePath = ExcelFilePathTextBox.Text;
+                string connectionString = ConnectionStringTextBox.Text;
+                Task.Run(() =>
+                {
+                    importer.DatabaseValidation += Importer_DatabaseValidation;
+                    importer.ImportCompleted += Importer_ImportCompleted;
+                    importer.ImportProgressChanged += Importer_ImportProgressChanged;
+                    importer.ReadExcelCompleted += Importer_ReadExcelCompleted;
+                    importer.ImportStarted += Importer_ImportStarted;
+                    importer.ReadExcelStarted += Importer_ReadExcelStarted;
+                    importer.Import(filePath, connectionString, options);
+                });
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 ResultTextBlock.Text = $"导入过程中发生错误: {ex.Message}";
                 ResultTextBlock.Visibility = Visibility.Visible;
@@ -63,9 +65,57 @@ namespace Materal.Tools.WinUI.Pages
                 // 隐藏进度条
                 ImportProgressBar.IsIndeterminate = false;
                 ImportProgressBar.Visibility = Visibility.Collapsed;
-                ImportButton.IsEnabled = true;
             }
         }
+
+        private void Importer_ReadExcelStarted(object? sender, ExcelImportResult e) => DispatcherQueue.TryEnqueue(() =>
+        {
+            ResultTextBlock.Text = "开始读取Excel文件...";
+            ResultTextBlock.Visibility = Visibility.Visible;
+            ErrorTextBox.Visibility = Visibility.Collapsed;
+        });
+
+        private void Importer_ImportStarted(object? sender, ExcelImportResult e) => DispatcherQueue.TryEnqueue(() =>
+        {
+            ResultTextBlock.Text = "开始导入...";
+            ResultTextBlock.Visibility = Visibility.Visible;
+            ErrorTextBox.Visibility = Visibility.Collapsed;
+        });
+
+        private void Importer_ReadExcelCompleted(object? sender, ExcelImportResult e) => DispatcherQueue.TryEnqueue(() =>
+        {
+            ResultTextBlock.Text = "读取Excel文件成功";
+            ResultTextBlock.Visibility = Visibility.Visible;
+            ErrorTextBox.Visibility = Visibility.Collapsed;
+        });
+
+        private void Importer_ImportProgressChanged(object? sender, ExcelImportResult e) => DispatcherQueue.TryEnqueue(() =>
+        {
+            ResultTextBlock.Text = $"正在导入{e.SuccessRows + e.FailedRows}/{e.TotalRows},成功:{e.SuccessRows},失败:{e.FailedRows}";
+            ResultTextBlock.Visibility = Visibility.Visible;
+            if (e.Errors.Count != 0)
+            {
+                ErrorTextBox.Text = string.Join("\n\n", e.Errors);
+                ErrorTextBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ErrorTextBox.Visibility = Visibility.Collapsed;
+            }
+        });
+
+        private void Importer_ImportCompleted(object? sender, ExcelImportResult e) => DispatcherQueue.TryEnqueue(() =>
+        {
+            DisplayResult(e);
+            ImportButton.IsEnabled = true;
+        });
+
+        private void Importer_DatabaseValidation(object? sender, ExcelImportResult e) => DispatcherQueue.TryEnqueue(() =>
+        {
+            ResultTextBlock.Text = "正在验证数据库....";
+            ResultTextBlock.Visibility = Visibility.Visible;
+            ErrorTextBox.Visibility = Visibility.Collapsed;
+        });
 
         private bool ValidateInput()
         {

@@ -6,6 +6,30 @@ namespace Materal.Tools.Core.ExcelImportDataBase;
 public interface IExcelImportDataBase
 {
     /// <summary>
+    /// 读取Excel开始事件
+    /// </summary>
+    event EventHandler<ExcelImportResult>? ReadExcelStarted;
+    /// <summary>
+    /// 读取Excel完成事件
+    /// </summary>
+    event EventHandler<ExcelImportResult>? ReadExcelCompleted;
+    /// <summary>
+    /// 数据库验证事件
+    /// </summary>
+    event EventHandler<ExcelImportResult>? DatabaseValidation;
+    /// <summary>
+    /// 导入开始事件
+    /// </summary>
+    event EventHandler<ExcelImportResult>? ImportStarted;
+    /// <summary>
+    /// 导入进度变化事件
+    /// </summary>
+    event EventHandler<ExcelImportResult>? ImportProgressChanged;
+    /// <summary>
+    /// 导入完成事件
+    /// </summary>
+    event EventHandler<ExcelImportResult>? ImportCompleted;
+    /// <summary>
     /// 从Excel文件导入数据到数据库
     /// </summary>
     /// <param name="filePath">Excel文件路径</param>

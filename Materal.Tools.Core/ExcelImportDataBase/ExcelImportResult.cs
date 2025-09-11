@@ -8,7 +8,7 @@ public class ExcelImportResult
     /// <summary>
     /// 总行数
     /// </summary>
-    public int TotalRows => SuccessRows + FailedRows;
+    public int TotalRows { get; set; }
 
     /// <summary>
     /// 成功导入行数
