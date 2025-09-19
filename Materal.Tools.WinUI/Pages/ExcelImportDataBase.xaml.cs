@@ -1,6 +1,8 @@
 using Materal.Tools.Core.ExcelImportDataBase;
+using Materal.Tools.WinUI.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Text.Json;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
@@ -9,7 +11,11 @@ namespace Materal.Tools.WinUI.Pages
     [Menu("Excel导入数据库", "\uED62")]
     public sealed partial class ExcelImportDataBase : Page
     {
-        public ExcelImportDataBase() => InitializeComponent();
+        public ExcelImportDataBase()
+        {
+            InitializeComponent();
+            LoadDatabaseConfig();
+        }
 
         private async void BrowseExcelFileButton_Click(object sender, RoutedEventArgs e)
         {
@@ -30,6 +36,10 @@ namespace Materal.Tools.WinUI.Pages
         {
             // 验证输入
             if (!ValidateInput()) return;
+
+            // 保存数据库配置
+            SaveDatabaseConfig();
+
             // 显示进度条
             ImportProgressBar.Visibility = Visibility.Visible;
             ImportProgressBar.IsIndeterminate = true;
@@ -203,6 +213,41 @@ namespace Materal.Tools.WinUI.Pages
             ColumnMappingTextBox.Text = "";
             ResultTextBlock.Visibility = Visibility.Collapsed;
             ErrorTextBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void LoadDatabaseConfig()
+        {
+            DatabaseConfig? config = DatabaseConfig.LoadConfig();
+            if (config != null)
+            {
+                // 加载数据库类型
+                if (config.DatabaseType.Equals("Oracle", StringComparison.OrdinalIgnoreCase))
+                {
+                    OracleRadioButton.IsChecked = true;
+                    SqlServerRadioButton.IsChecked = false;
+                }
+                else
+                {
+                    SqlServerRadioButton.IsChecked = true;
+                    OracleRadioButton.IsChecked = false;
+                }
+
+                // 加载连接字符串
+                ConnectionStringTextBox.Text = config.ConnectionString;
+            }
+        }
+
+        private void SaveDatabaseConfig()
+        {
+            var config = new DatabaseConfig
+            {
+                // 保存数据库类型
+                DatabaseType = OracleRadioButton.IsChecked == true ? "Oracle" : "SqlServer",
+                // 保存连接字符串
+                ConnectionString = ConnectionStringTextBox.Text
+            };
+
+            config.SaveConfig();
         }
     }
 }
