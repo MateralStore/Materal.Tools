@@ -72,6 +72,11 @@ public abstract class ExcelImportDataBase : IExcelImportDataBase
                         for (int j = 0; j < row.LastCellNum; j++)
                         {
                             ICell cell = row.GetCell(j);
+                            if (cell is null)
+                            {
+                                values.Add(string.Empty);
+                                continue;
+                            }
                             if (cell.CellType == CellType.String)
                             {
                                 values.Add(cell.StringCellValue);
