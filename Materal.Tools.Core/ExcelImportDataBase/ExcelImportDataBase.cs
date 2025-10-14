@@ -51,6 +51,8 @@ public abstract class ExcelImportDataBase : IExcelImportDataBase
             }
             ReadExcelCompleted?.Invoke(this, result);
             DatabaseValidation?.Invoke(this, result);
+            int rowIndex = 1;
+            int columnIndex = 0;
             try
             {
                 string createTableSQL = GetCreateTableSQL(options.TableName, columNames, options.ColumnMapping);
@@ -64,14 +66,14 @@ public abstract class ExcelImportDataBase : IExcelImportDataBase
                     }
                     ImportStarted?.Invoke(this, result);
                     List<List<string>> batchValues = new(options.BatchSize);
-                    for (int i = 1; i <= sheet.LastRowNum; i++)
+                    for (rowIndex = 1; rowIndex <= sheet.LastRowNum; rowIndex++)
                     {
-                        row = sheet.GetRow(i);
+                        row = sheet.GetRow(rowIndex);
                         if (row == null) continue;
                         List<string> values = new(row.LastCellNum);
-                        for (int j = 0; j < row.LastCellNum; j++)
+                        for (columnIndex = 0; columnIndex < row.LastCellNum; columnIndex++)
                         {
-                            ICell cell = row.GetCell(j);
+                            ICell cell = row.GetCell(columnIndex);
                             if (cell is null)
                             {
                                 values.Add(string.Empty);
@@ -91,14 +93,7 @@ public abstract class ExcelImportDataBase : IExcelImportDataBase
                             }
                             else if (cell.CellType == CellType.Formula)
                             {
-                                try
-                                {
-                                    values.Add(cell.StringCellValue);
-                                }
-                                catch
-                                {
-                                    values.Add(cell.NumericCellValue.ToString());
-                                }
+                                values.Add(cell.CellFormula);
                             }
                             else
                             {
@@ -119,7 +114,7 @@ public abstract class ExcelImportDataBase : IExcelImportDataBase
                 }
                 catch (Exception ex)
                 {
-                    result.Errors.Add(ex.GetErrorMessage());
+                    result.Errors.Add($"第{rowIndex}行第{columnIndex}列出现异常:{ex.GetErrorMessage()}");
                     return result;
                 }
                 finally
