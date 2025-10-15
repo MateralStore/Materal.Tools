@@ -17,6 +17,7 @@ namespace Materal.Tools.Core.ExcelImportDataBase
         protected override string GetCreateTableSQL(string tableName, List<string> columnNames, Dictionary<string, string>? columnMapping = null)
         {
             List<string> tableColumNames = new(columnNames.Count);
+            int index = 0;
             foreach (string columnName in columnNames)
             {
                 if (columnMapping is not null && columnMapping.TryGetValue(columnName, out string? mappingColumnName))
@@ -25,7 +26,14 @@ namespace Materal.Tools.Core.ExcelImportDataBase
                 }
                 else
                 {
+                if (string.IsNullOrWhiteSpace(columnName))
+                {
+                    tableColumNames.Add($"Column{index++}");
+                }
+                else
+                {
                     tableColumNames.Add(columnName);
+                }
                 }
             }
             return $"CREATE TABLE \"{tableName}\" ({string.Join(", ", tableColumNames.Select(c => $"\"{c}\" NVARCHAR2(255)"))})";

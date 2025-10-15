@@ -10,54 +10,102 @@
     <ScrollViewer>
         <StackPanel Margin="20" Spacing="10">
             <TextBlock Text="Excel导入数据库工具" Style="{StaticResource HeaderTextBlockStyle}" />
-            
-            <!-- 数据库类型选择 -->
+
+            <!--  数据库类型选择  -->
             <TextBlock Text="数据库类型:" Style="{StaticResource SubtitleTextBlockStyle}" />
             <StackPanel Orientation="Horizontal" Spacing="10">
-                <RadioButton x:Name="SqlServerRadioButton" Content="SQL Server" IsChecked="True" />
+                <RadioButton
+                    x:Name="SqlServerRadioButton"
+                    Content="SQL Server"
+                    IsChecked="True" />
                 <RadioButton x:Name="OracleRadioButton" Content="Oracle" />
             </StackPanel>
-            
-            <!-- 连接字符串 -->
+
+            <!--  连接字符串  -->
             <TextBlock Text="连接字符串:" Style="{StaticResource SubtitleTextBlockStyle}" />
-            <TextBox x:Name="ConnectionStringTextBox" PlaceholderText="请输入数据库连接字符串" TextWrapping="Wrap" />
-            
-            <!-- Excel文件选择 -->
+            <TextBox
+                x:Name="ConnectionStringTextBox"
+                PlaceholderText="请输入数据库连接字符串"
+                IsSpellCheckEnabled="False"
+                TextWrapping="Wrap" />
+
+            <!--  Excel文件选择  -->
             <TextBlock Text="Excel文件:" Style="{StaticResource SubtitleTextBlockStyle}" />
             <StackPanel Orientation="Horizontal" Spacing="10">
-                <TextBox x:Name="ExcelFilePathTextBox" PlaceholderText="请选择Excel文件" IsReadOnly="True" Width="400" />
+                <TextBox
+                    x:Name="ExcelFilePathTextBox"
+                    Width="400"
+                    PlaceholderText="请选择Excel文件"
+                    IsReadOnly="True"
+                    IsSpellCheckEnabled="False" />
                 <Button Content="浏览..." Click="BrowseExcelFileButton_Click" />
             </StackPanel>
-            
-            <!-- 表名 -->
+
+            <!--  表名  -->
             <TextBlock Text="表名:" Style="{StaticResource SubtitleTextBlockStyle}" />
-            <TextBox x:Name="TableNameTextBox" PlaceholderText="请输入数据库表名" />
-            
-            <!-- 工作表名称 -->
+            <TextBox
+                x:Name="TableNameTextBox"
+                PlaceholderText="请输入数据库表名"
+                IsSpellCheckEnabled="False" />
+
+            <!--  工作表名称  -->
             <TextBlock Text="工作表名称:" Style="{StaticResource SubtitleTextBlockStyle}" />
-            <TextBox x:Name="SheetNameTextBox" PlaceholderText="请输入Excel工作表名称" Text="Sheet1" />
-            
-            <!-- 批处理大小 -->
+            <TextBox
+                x:Name="SheetNameTextBox"
+                Text="Sheet1"
+                PlaceholderText="请输入Excel工作表名称"
+                IsSpellCheckEnabled="False" />
+
+            <!--  批处理大小  -->
             <TextBlock Text="批处理大小:" Style="{StaticResource SubtitleTextBlockStyle}" />
-            <NumberBox x:Name="BatchSizeNumberBox" Value="100" Minimum="1" Maximum="10000" SpinButtonPlacementMode="Inline" />
-            
-            <!-- 列映射配置 -->
+            <NumberBox
+                x:Name="BatchSizeNumberBox"
+                Maximum="10000"
+                Minimum="1"
+                SpinButtonPlacementMode="Inline"
+                Value="100" />
+
+            <!--  列映射配置  -->
             <TextBlock Text="列映射配置:" Style="{StaticResource SubtitleTextBlockStyle}" />
-            <TextBlock Text="格式: Excel列名 -> 数据库列名 (每行一个映射)" Foreground="Gray" />
-            <TextBox x:Name="ColumnMappingTextBox" PlaceholderText="例如:&#x0a;姓名 -> Name&#x0a;年龄 -> Age&#x0a;邮箱 -> Email" TextWrapping="Wrap" Height="100" />
-            
-            <!-- 操作按钮 -->
-            <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
-                <Button x:Name="ImportButton" Content="开始导入" Click="ImportButton_Click" Style="{StaticResource AccentButtonStyle}" />
+            <TextBlock Foreground="Gray" Text="格式: Excel列名 -&gt; 数据库列名 (每行一个映射)" />
+            <TextBox
+                x:Name="ColumnMappingTextBox"
+                Height="100"
+                PlaceholderText="例如:&#x0a;姓名 -&gt; Name&#x0a;年龄 -&gt; Age&#x0a;邮箱 -&gt; Email"
+                IsSpellCheckEnabled="False"
+                TextWrapping="Wrap" />
+
+            <!--  操作按钮  -->
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button
+                    x:Name="ImportButton"
+                    Content="开始导入"
+                    Click="ImportButton_Click"
+                    Style="{StaticResource AccentButtonStyle}" />
                 <Button Content="重置" Click="ResetButton_Click" />
             </StackPanel>
-            
-            <!-- 进度条 -->
-            <ProgressBar x:Name="ImportProgressBar" IsIndeterminate="False" Visibility="Collapsed" />
-            
-            <!-- 结果显示 -->
-            <TextBlock x:Name="ResultTextBlock" TextWrapping="Wrap" Visibility="Collapsed" />
-            <TextBox x:Name="ErrorTextBox" PlaceholderText="错误信息将显示在这里" TextWrapping="Wrap" IsReadOnly="True" Height="150" Visibility="Collapsed" />
+
+            <!--  进度条  -->
+            <ProgressBar
+                x:Name="ImportProgressBar"
+                IsIndeterminate="False"
+                Visibility="Collapsed" />
+
+            <!--  结果显示  -->
+            <TextBlock
+                x:Name="ResultTextBlock"
+                TextWrapping="Wrap"
+                Visibility="Collapsed" />
+            <TextBox
+                x:Name="ErrorTextBox"
+                Height="150"
+                PlaceholderText="错误信息将显示在这里"
+                IsReadOnly="True"
+                TextWrapping="Wrap"
+                Visibility="Collapsed" />
         </StackPanel>
     </ScrollViewer>
 </Page>
