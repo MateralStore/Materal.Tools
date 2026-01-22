@@ -1,5 +1,5 @@
-using Materal.Extensions;
 using Materal.Tools.WinUI.Helpers;
+using Materal.Utils.Crypto;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Materal.Tools.WinUI.Pages
@@ -12,7 +12,7 @@ namespace Materal.Tools.WinUI.Pages
         {
             try
             {
-                MianPanel.CipherText = MianPanel.PlainText.ToDisplacementEncode(Convert.ToInt32(DigitSlider.Value));
+                MianPanel.CipherText = DisplacementCrypto.Encrypt(MianPanel.PlainText, Convert.ToInt32(DigitSlider.Value));
             }
             catch (Exception ex)
             {
@@ -23,7 +23,7 @@ namespace Materal.Tools.WinUI.Pages
         {
             try
             {
-                MianPanel.PlainText = MianPanel.CipherText.DisplacementDecode(Convert.ToInt32(DigitSlider.Value));
+                MianPanel.PlainText = DisplacementCrypto.Decrypt(MianPanel.CipherText, Convert.ToInt32(DigitSlider.Value));
             }
             catch (Exception ex)
             {

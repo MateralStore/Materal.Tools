@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Materal.COA;
+using Materal.COA.Generator;
 using Materal.Extensions;
 using Materal.Utils.Windows;
 
@@ -26,31 +27,35 @@ namespace Materal.Tools.WinUI.ViewModels
         [RelayCommand]
         private void WriteCertificateFile()
         {
-            COAHost.WriteCertificateFile(CertificateName, EndDate);
-            string baseDirectory = typeof(COAHost).Assembly.GetDirectoryPath().TrimEnd('\\');
-            string privateKeyPath = Path.Combine(baseDirectory, "MateralCertificates", CertificateName);
-            ExplorerHelper.OpenExplorer(privateKeyPath);
+            CertificateGeneratorService certificateGeneratorService = new();
+            string baseDirectory = typeof(CertificateGeneratorService).Assembly.GetDirectoryPath().TrimEnd('\\');
+            baseDirectory = Path.Combine(baseDirectory, "MateralCertificates", CertificateName);
+            CertificateFileResult result = certificateGeneratorService.GenerateToFile(baseDirectory, new()
+            {
+                ProjectName = CertificateName,
+                ExpirationTime = EndDate
+            });
+            ExplorerHelper.OpenExplorer(result.Certificate.FullName);
             Message = "证书已签发";
         }
         [RelayCommand]
         private void VerifyAuthorization()
         {
-            string baseDirectory = typeof(COAHost).Assembly.GetDirectoryPath().TrimEnd('\\');
+            string baseDirectory = typeof(CertificateVerificationService).Assembly.GetDirectoryPath().TrimEnd('\\');
             string privateKeyPath = Path.Combine(baseDirectory, "MateralCertificates", CertificateName, "private.key");
             if (!File.Exists(privateKeyPath))
             {
                 Message = "证书不存在";
                 return;
             }
-            string privateKey = File.ReadAllText(privateKeyPath);
             string certificatePath = Path.Combine(baseDirectory, "MateralCertificates", CertificateName, "MateralCertificate.cer");
             try
             {
-                if (COAHost.VerifyAuthorization(CertificateName, privateKey, certificatePath, out DateTimeOffset? endDate))
+                CertificateVerificationService certificateVerificationService = new();
+                if (certificateVerificationService.Verify(certificatePath, privateKeyPath, CertificateName, out DateTimeOffset? endDate))
                 {
                     string privateKeyPEMPath = Path.Combine(baseDirectory, "MateralCertificates", CertificateName, "private.pem");
-                    string privateKeyPEM = File.ReadAllText(privateKeyPEMPath);
-                    if (COAHost.VerifyAuthorizationPEM(CertificateName, privateKeyPEM, certificatePath, out DateTimeOffset? endDate2))
+                    if (certificateVerificationService.Verify(certificatePath, privateKeyPEMPath, CertificateName, out DateTimeOffset? endDate2))
                     {
                         if (endDate2 is null || endDate != endDate2)
                         {

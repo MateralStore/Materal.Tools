@@ -1,5 +1,5 @@
-using Materal.Extensions;
 using Materal.Tools.WinUI.Helpers;
+using Materal.Utils.Crypto;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Materal.Tools.WinUI.Pages
@@ -14,7 +14,7 @@ namespace Materal.Tools.WinUI.Pages
             try
             {
                 if (Is32ToggleButton.IsChecked is null) return;
-                MianPanel.CipherText = Is32ToggleButton.IsChecked.Value ? MianPanel.PlainText.ToMd5_32Encode() : MianPanel.PlainText.ToMd5_16Encode();
+                MianPanel.CipherText = Is32ToggleButton.IsChecked.Value ? MD5Crypto.Hash32(MianPanel.PlainText) : MD5Crypto.Hash16(MianPanel.PlainText);
             }
             catch (Exception ex)
             {

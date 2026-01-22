@@ -12,15 +12,5 @@
         x:Name="MianPanel"
         CanDecode="True"
         DecryptButtonClick="MianPanel_DecryptButtonClick"
-        EncryptButtonClick="EncryptionControl_EncryptButtonClick">
-        <controls:EncryptionControl.OperationPanelContent>
-            <Slider
-                x:Name="DigitSlider"
-                Header="秘钥位数"
-                Maximum="16"
-                Minimum="4"
-                StepFrequency="4"
-                Value="8" />
-        </controls:EncryptionControl.OperationPanelContent>
-    </controls:EncryptionControl>
+        EncryptButtonClick="EncryptionControl_EncryptButtonClick" />
 </Page>

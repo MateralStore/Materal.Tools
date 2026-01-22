@@ -29,7 +29,9 @@
 	  <PackageReference Include="Microsoft.WindowsAppSDK" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Materal.COA\Materal.COA.Generator\Materal.COA.Generator.csproj" />
 		<ProjectReference Include="..\..\Materal.COA\Materal.COA\Materal.COA.csproj" />
+		<ProjectReference Include="..\..\Materal.Utils\Materal.Utils.Crypto\Materal.Utils.Crypto.csproj" />
 		<ProjectReference Include="..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
 		<ProjectReference Include="..\..\Materal.Utils\Materal.Utils.Windows\Materal.Utils.Windows.csproj" />
 	</ItemGroup>

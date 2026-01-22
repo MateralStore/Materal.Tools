@@ -1,5 +1,5 @@
-using Materal.Extensions;
 using Materal.Tools.WinUI.Helpers;
+using Materal.Utils.Crypto;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Materal.Tools.WinUI.Pages
@@ -12,7 +12,7 @@ namespace Materal.Tools.WinUI.Pages
         {
             try
             {
-                MianPanel.CipherText = MianPanel.PlainText.ToBase64Encode();
+                MianPanel.CipherText = Base64Crypto.Encode(MianPanel.PlainText);
             }
             catch (Exception ex)
             {
@@ -23,7 +23,7 @@ namespace Materal.Tools.WinUI.Pages
         {
             try
             {
-                MianPanel.PlainText = MianPanel.CipherText.Base64Decode();
+                MianPanel.PlainText = Base64Crypto.Decode(MianPanel.CipherText);
             }
             catch (Exception ex)
             {
