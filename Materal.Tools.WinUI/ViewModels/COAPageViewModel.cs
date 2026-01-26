@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Materal.COA;
 using Materal.COA.Generator;
-using Materal.Extensions;
+using Materal.Utils.Extensions;
 using Materal.Utils.Windows;
 
 namespace Materal.Tools.WinUI.ViewModels

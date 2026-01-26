@@ -1,8 +1,8 @@
 using Materal.COA.Generator;
-using Materal.Extensions;
 using Materal.Tools.Core;
 using Materal.Tools.WinUI.Helpers;
 using Materal.Utils.Crypto;
+using Materal.Utils.Extensions;
 using Materal.Utils.Windows;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
