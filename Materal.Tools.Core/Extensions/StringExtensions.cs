@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core.Extensions
+namespace Materal.Tools.Core.Extensions
 {
     /// <summary>
     /// 字符串扩展

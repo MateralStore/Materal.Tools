@@ -1,4 +1,4 @@
-﻿using Materal.Tools.WinUI.ViewModels;
+using Materal.Tools.WinUI.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Materal.Tools.WinUI.Pages;

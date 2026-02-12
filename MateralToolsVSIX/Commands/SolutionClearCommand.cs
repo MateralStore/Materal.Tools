@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using Materal.Tools.Core.ProjectClear;
 using System.IO;
 

@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core.ProjectClear
+namespace Materal.Tools.Core.ProjectClear
 {
     /// <summary>
     /// 项目清理服务

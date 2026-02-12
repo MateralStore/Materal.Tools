@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Command
+namespace Materal.Tools.Command
 {
     /// <summary>
     /// 添加子命令特性

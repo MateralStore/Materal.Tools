@@ -1,4 +1,4 @@
-﻿using Materal.Tools.Core.ProjectClear;
+using Materal.Tools.Core.ProjectClear;
 using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine;
 using SubCommand = System.CommandLine.Command;

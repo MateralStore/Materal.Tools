@@ -1,4 +1,4 @@
-﻿const hubUrlKey = "HubUrl";
+const hubUrlKey = "HubUrl";
 const hubNameKey = "HubName";
 const actionNameKey = "ActionName";
 const messageKey = "SendMessage";

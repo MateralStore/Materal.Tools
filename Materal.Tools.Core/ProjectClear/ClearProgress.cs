@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core.ProjectClear
+namespace Materal.Tools.Core.ProjectClear
 {
     /// <summary>
     /// 清理进度信息

@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Materal.Tools.Core.Logger;
 using Materal.Tools.WinUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;

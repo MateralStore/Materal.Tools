@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core.LFConvert
+namespace Materal.Tools.Core.LFConvert
 {
     /// <summary>
     /// LF转换器选项

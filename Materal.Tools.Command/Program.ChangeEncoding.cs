@@ -1,4 +1,4 @@
-﻿using Materal.Tools.Core.ChangeEncoding;
+using Materal.Tools.Core.ChangeEncoding;
 using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine;
 using System.Text;

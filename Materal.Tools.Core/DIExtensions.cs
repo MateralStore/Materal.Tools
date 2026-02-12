@@ -1,4 +1,4 @@
-﻿using Materal.Tools.Core.ChangeEncoding;
+using Materal.Tools.Core.ChangeEncoding;
 using Materal.Tools.Core.LFConvert;
 using Materal.Tools.Core.Logger;
 using Materal.Tools.Core.ProjectClear;

@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core
+namespace Materal.Tools.Core
 {
     /// <summary>
     /// 工具异常

@@ -1,4 +1,4 @@
-﻿
+
 using Microsoft.Extensions.Logging;
 
 namespace Materal.Tools.Core.LFConvert

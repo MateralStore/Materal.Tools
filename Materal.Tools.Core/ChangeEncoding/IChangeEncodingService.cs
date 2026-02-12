@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core.ChangeEncoding
+namespace Materal.Tools.Core.ChangeEncoding
 {
     /// <summary>
     /// 更改编码服务

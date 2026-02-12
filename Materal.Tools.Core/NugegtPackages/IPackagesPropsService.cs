@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core.NugegtPackages
+namespace Materal.Tools.Core.NugegtPackages
 {
     /// <summary>
     /// 包Props文件服务

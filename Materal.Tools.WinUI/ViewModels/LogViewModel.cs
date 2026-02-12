@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Materal.Tools.Core.Logger;
 using Microsoft.Extensions.Logging;
 

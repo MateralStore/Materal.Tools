@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using EnvDTE;
 using EnvDTE80;
 using Materal.Tools.Core.ProjectClear;

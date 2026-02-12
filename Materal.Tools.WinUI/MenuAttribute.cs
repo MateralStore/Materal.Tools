@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.WinUI
+namespace Materal.Tools.WinUI
 {
     /// <summary>
     /// 菜单特性

@@ -1,4 +1,4 @@
-﻿using Materal.Tools.Core.LFConvert;
+using Materal.Tools.Core.LFConvert;
 using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine;
 using System.Text.RegularExpressions;

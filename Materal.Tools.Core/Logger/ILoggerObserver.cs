@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Core.Logger
+namespace Materal.Tools.Core.Logger
 {
     /// <summary>
     /// 日志监听器

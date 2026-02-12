@@ -1,4 +1,4 @@
-﻿using Materal.Tools.Core;
+using Materal.Tools.Core;
 using Materal.Tools.Core.Helper;
 using Materal.Tools.Core.Logger;
 using Microsoft.Extensions.DependencyInjection;

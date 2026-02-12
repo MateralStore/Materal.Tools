@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System.Text;
 using Ude;
 
@@ -60,13 +60,11 @@ namespace Materal.Tools.Core.ChangeEncoding
             {
                 await ChangeEncodingAsync(fileInfo, options);
             }
-            if (options.Recursive)
+            if (!options.Recursive) return;
+            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
+            foreach (DirectoryInfo subDirectoryInfo in directoryInfos)
             {
-                DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
-                foreach (DirectoryInfo subDirectoryInfo in directoryInfos)
-                {
-                    await ChangeEncodingAsync(subDirectoryInfo, options);
-                }
+                await ChangeEncodingAsync(subDirectoryInfo, options);
             }
         }
         /// <summary>
@@ -77,26 +75,18 @@ namespace Materal.Tools.Core.ChangeEncoding
         /// <returns></returns>
         private async Task ChangeEncodingAsync(FileInfo fileInfo, ChangeEncodingOptions options)
         {
-            logger?.LogInformation($"正在检测文件{fileInfo.FullName}");
             Encoding fileEncoding = GetFileEncoding(fileInfo);
-            if (fileEncoding == options.WriteEncoding)
-            {
-                logger?.LogInformation($"编码为:{fileEncoding.EncodingName},无需转换");
-                return;
-            }
-            else
-            {
-                Encoding readEncoding = options.ReadEncoding ?? fileEncoding;
+            if (fileEncoding == options.WriteEncoding) return;
+            Encoding readEncoding = options.ReadEncoding ?? fileEncoding;
 #if NET
-                string text = await File.ReadAllTextAsync(fileInfo.FullName, readEncoding);
-                await File.WriteAllTextAsync(fileInfo.FullName, text, options.WriteEncoding);
+            string text = await File.ReadAllTextAsync(fileInfo.FullName, readEncoding);
+            await File.WriteAllTextAsync(fileInfo.FullName, text, options.WriteEncoding);
 #else
-                string text = File.ReadAllText(fileInfo.FullName, readEncoding);
-                File.WriteAllText(fileInfo.FullName, text, options.WriteEncoding);
-                await Task.CompletedTask;
+            string text = File.ReadAllText(fileInfo.FullName, readEncoding);
+            File.WriteAllText(fileInfo.FullName, text, options.WriteEncoding);
+            await Task.CompletedTask;
 #endif
-                logger?.LogInformation($"编码已从{fileEncoding.EncodingName}转换为:{options.WriteEncoding.EncodingName}");
-            }
+            logger?.LogInformation($"编码已从{fileEncoding.EncodingName}转换为:{options.WriteEncoding.EncodingName}");
         }
         /// <summary>
         /// 获得文件编码
@@ -109,14 +99,7 @@ namespace Materal.Tools.Core.ChangeEncoding
             CharsetDetector detector = new();
             detector.Feed(fs);
             detector.DataEnd();
-            if (detector.Charset != null)
-            {
-                return Encoding.GetEncoding(detector.Charset);
-            }
-            else
-            {
-                return Encoding.Default;
-            }
+            return detector.Charset != null ? Encoding.GetEncoding(detector.Charset) : Encoding.Default;
         }
     }
 }
