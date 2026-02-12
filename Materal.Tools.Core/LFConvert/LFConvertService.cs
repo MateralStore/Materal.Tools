@@ -126,21 +126,30 @@ namespace Materal.Tools.Core.LFConvert
             if (!fileInfo.Exists) throw new FileNotFoundException($"文件{fileInfo.FullName}不存在");
             logger?.LogInformation($"正在转换{fileInfo.FullName}为LF");
 #if NET
-            string[] contents = await File.ReadAllLinesAsync(fileInfo.FullName);
+            byte[] bytes = await File.ReadAllBytesAsync(fileInfo.FullName);
 #else
-            string[] contents = File.ReadAllLines(fileInfo.FullName);
+            byte[] bytes = File.ReadAllBytes(fileInfo.FullName);
             await Task.CompletedTask;
 #endif
-            for (int i = 0; i < contents.Length; i++)
+            // 将CRLF(0x0D 0x0A)替换为LF(0x0A)
+            var result = new List<byte>();
+            for (int i = 0; i < bytes.Length; i++)
             {
-                if (!contents[i].EndsWith("\r\n")) continue;
-                contents[i] = contents[i].Replace("\r\n", "\n");
+                if (i < bytes.Length - 1 && bytes[i] == 0x0D && bytes[i + 1] == 0x0A)
+                {
+                    result.Add(0x0A);
+                    i++; // 跳过下一个字节(0x0A)
+                }
+                else
+                {
+                    result.Add(bytes[i]);
+                }
             }
             logger?.LogInformation($"转换{fileInfo.FullName}成功");
 #if NET
-            await File.WriteAllLinesAsync(fileInfo.FullName, contents);
+            await File.WriteAllBytesAsync(fileInfo.FullName, result.ToArray());
 #else
-            File.WriteAllLines(fileInfo.FullName, contents);
+            File.WriteAllBytes(fileInfo.FullName, result.ToArray());
             await Task.CompletedTask;
 #endif
         }
@@ -152,22 +161,39 @@ namespace Materal.Tools.Core.LFConvert
         private async Task LFToCRLFAsync(FileInfo fileInfo)
         {
             if (!fileInfo.Exists) throw new FileNotFoundException($"文件{fileInfo.FullName}不存在");
-            logger?.LogInformation($"正在转换{fileInfo.FullName}为LF");
+            logger?.LogInformation($"正在转换{fileInfo.FullName}为CRLF");
 #if NET
-            string[] contents = await File.ReadAllLinesAsync(fileInfo.FullName);
+            byte[] bytes = await File.ReadAllBytesAsync(fileInfo.FullName);
 #else
-            string[] contents = File.ReadAllLines(fileInfo.FullName);
+            byte[] bytes = File.ReadAllBytes(fileInfo.FullName);
 #endif
-            for (int i = 0; i < contents.Length; i++)
+            // 将LF(0x0A)替换为CRLF(0x0D 0x0A)，但避免重复替换
+            var result = new List<byte>();
+            for (int i = 0; i < bytes.Length; i++)
             {
-                if (!contents[i].EndsWith("\n")) continue;
-                contents[i] = contents[i].Replace("\n", "\r\n");
+                if (bytes[i] == 0x0A)
+                {
+                    // 检查前面是否已经是CR，避免重复替换
+                    if (i > 0 && bytes[i - 1] == 0x0D)
+                    {
+                        result.Add(0x0A);
+                    }
+                    else
+                    {
+                        result.Add(0x0D);
+                        result.Add(0x0A);
+                    }
+                }
+                else
+                {
+                    result.Add(bytes[i]);
+                }
             }
             logger?.LogInformation($"转换{fileInfo.FullName}成功");
 #if NET
-            await File.WriteAllLinesAsync(fileInfo.FullName, contents);
+            await File.WriteAllBytesAsync(fileInfo.FullName, result.ToArray());
 #else
-            File.WriteAllLines(fileInfo.FullName, contents);
+            File.WriteAllBytes(fileInfo.FullName, result.ToArray());
             await Task.CompletedTask;
 #endif
         }
