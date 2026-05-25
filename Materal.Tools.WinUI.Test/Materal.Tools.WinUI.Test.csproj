@@ -1,0 +1,11 @@
+<Project Sdk="MSTest.Sdk/4.1.0">
+	<Import Project="../../Common.props" />
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<IsTestProject>true</IsTestProject>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Tools.WinUI\Materal.Tools.WinUI.csproj" />
+	</ItemGroup>
+</Project>
