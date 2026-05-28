@@ -13,6 +13,11 @@
         Spacing="8">
         <TextBox Text="{x:Bind ViewModel.CertificateName, Mode=TwoWay}" Header="证书名称" />
         <DatePicker Date="{x:Bind ViewModel.EndDate, Mode=TwoWay}" Header="到期时间" />
+        <NumberBox
+            Header="缓冲天数"
+            Minimum="0"
+            SpinButtonPlacementMode="Inline"
+            Value="{x:Bind ViewModel.GraceDaysInput, Mode=TwoWay}" />
         <Button Content="签发证书" Command="{x:Bind ViewModel.WriteCertificateFileCommand}" />
         <Button Content="证书验证" Command="{x:Bind ViewModel.VerifyAuthorizationCommand}" />
         <TextBlock Text="{x:Bind ViewModel.Message, Mode=OneWay}" />
