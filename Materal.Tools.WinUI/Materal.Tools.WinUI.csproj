@@ -35,11 +35,6 @@
 		<ProjectReference Include="..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
 		<ProjectReference Include="..\..\Materal.Utils\Materal.Utils.Windows\Materal.Utils.Windows.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Page Update="Pages\ExcelImportDataBase.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
 	<Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
 	  <Exec Command="call PostBuild.bat" />
 	</Target>
