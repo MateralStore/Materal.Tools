@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Materal.Tools.COSWatcher": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

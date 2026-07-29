@@ -265,3 +265,4 @@ __pycache__/
 *.pyc
 /Materal.APP/demo/iconfont
 dist/
+/Materal.Tools.COSWatcher/appsettings.Development.json
