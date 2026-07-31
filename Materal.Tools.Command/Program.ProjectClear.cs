@@ -15,13 +15,11 @@ namespace Materal.Tools.Command
         public void AddProjectClearCommand(RootCommand rootCommand)
         {
             SubCommand command = new("ProjectClear", "清理项目文件夹[.vs、bin、obj、node_modules、空文件夹]");
-            Option<string?> pathOption = new("--Path", "指定路径");
-            pathOption.AddAlias("-p");
-            pathOption.IsRequired = false;
-            pathOption.SetDefaultValue(null);
-            command.AddOption(pathOption);
-            command.SetHandler(ProjectClearAsync, pathOption);
-            rootCommand.AddCommand(command);
+            Option<string?> pathOption = new("--Path") { Description = "指定路径" };
+            pathOption.Aliases.Add("-p");
+            command.Options.Add(pathOption);
+            command.SetAction(parseResult => ProjectClearAsync(parseResult.GetValue(pathOption)));
+            rootCommand.Subcommands.Add(command);
         }
         private async Task ProjectClearAsync(string? path)
         {

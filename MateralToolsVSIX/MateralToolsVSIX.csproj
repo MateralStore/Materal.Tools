@@ -54,7 +54,7 @@
     <Compile Include="Commands\SortPackagesPropsCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MateralToolsVSIXPackage.cs" />
-    <Compile Include="source.extension.cs">
+    <Compile Include="source.extension.cs" Condition="'$(Configuration)' != 'Release'">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>

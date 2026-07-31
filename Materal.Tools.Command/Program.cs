@@ -44,7 +44,7 @@ namespace Materal.Tools.Command
         {
             RootCommand rootCommand = new("Materal工具箱");
             AddSubCommad(rootCommand);
-            int result = await rootCommand.InvokeAsync(args);
+            int result = await rootCommand.Parse(args).InvokeAsync();
             return result;
         }
         private static void OnLog(Log log)

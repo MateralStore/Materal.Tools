@@ -17,29 +17,26 @@ namespace Materal.Tools.Command
         {
             SubCommand command = new("LFToCRLF", "LF转换CRLF");
 
-            Option<string?> pathOption = new("--Path", "指定路径");
-            pathOption.AddAlias("-p");
-            pathOption.IsRequired = false;
-            pathOption.SetDefaultValue(null);
-            command.AddOption(pathOption);
+            Option<string?> pathOption = new("--Path") { Description = "指定路径" };
+            pathOption.Aliases.Add("-p");
+            command.Options.Add(pathOption);
 
-            Option<bool> recursiveOption = new("--Recursive", "递归");
-            recursiveOption.AddAlias("-r");
-            recursiveOption.IsRequired = false;
-            recursiveOption.SetDefaultValue(true);
-            command.AddOption(recursiveOption);
+            Option<bool> recursiveOption = new("--Recursive") { Description = "递归", DefaultValueFactory = _ => true };
+            recursiveOption.Aliases.Add("-r");
+            command.Options.Add(recursiveOption);
 
-            Option<string> filterOption = new("--Filter", "过滤正则表达式");
-            filterOption.AddAlias("-f");
-            filterOption.IsRequired = false;
-            filterOption.SetDefaultValue("^.+$");
-            filterOption.FromAmong("^.+\\.cs$", "^.+\\.xml$", "其他正则");
-            command.AddOption(filterOption);
+            Option<string> filterOption = new("--Filter") { Description = "过滤正则表达式", DefaultValueFactory = _ => "^.+$" };
+            filterOption.Aliases.Add("-f");
+            filterOption.AcceptOnlyFromAmong("^.+\\.cs$", "^.+\\.xml$", "其他正则");
+            command.Options.Add(filterOption);
 
-            command.SetHandler(LFToCRLFAsync, pathOption, recursiveOption, filterOption);
-            rootCommand.AddCommand(command);
+            command.SetAction(parseResult => LFToCRLFAsync(
+                parseResult.GetValue(pathOption),
+                parseResult.GetValue(recursiveOption),
+                parseResult.GetValue(filterOption) ?? "^.+$"));
+            rootCommand.Subcommands.Add(command);
         }
-        private async void LFToCRLFAsync(string? path, bool recursive, string filter)
+        private async Task LFToCRLFAsync(string? path, bool recursive, string filter)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
